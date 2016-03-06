@@ -1,0 +1,7 @@
+node_modules
+wwwroot
+properties
+bin
+obj
+*.csproj*
+packages.config
