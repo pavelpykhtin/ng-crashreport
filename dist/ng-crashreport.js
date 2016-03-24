@@ -78,26 +78,23 @@
 
 		function log(message) {
 			var resultMessage = angular.extend({
-				module: self.options.application,
 				version: self.options.applicationVersion
 			}, message);
 
 			var http = $injector.get('$http');
 
 			return http.post(
-				self.options.url,
+				self.options.url + '/api/' + self.options.application + '/log',
 				resultMessage);
 		};
 
-		function trace(messageText) {
+		function trace(messageText, additionalInformation) {
 			var message = {
 				TimeStamp: null,
 				LogLevel: logLevels.Trace,
 				MessageText: messageText,
 				StackTrace: null,
-				AdditionalInformation: null,
-				UserId: 0,
-				PersonId: 0,
+				AdditionalInformation: additionalInformation ? JSON.stringify(additionalInformation) : null,
 				InnerException: null
 			}
 
@@ -106,9 +103,10 @@
 
 		function logException(messageText, url, lineNumber, columnNumber, errorObject) {
 			var formattedMessage = messageText + '\r\n[' + url + '] [' + lineNumber + ':' + columnNumber + ']';
-			var additionalInformation = '';
-			additionalInformation += 'Current location: ' + window.location.href + '\r\n';
-			additionalInformation += 'User-Agent: ' + navigator.userAgent + '\r\n';
+			var additionalInformation = {
+				currentLocation: window.location.href,
+				userAgent: navigator.userAgent
+			};
 
 			var message = {
 				TimeStamp: null,
@@ -116,8 +114,6 @@
 				MessageText: formattedMessage,
 				StackTrace: (errorObject.stack || 'no stack available'),
 				AdditionalInformation: additionalInformation,
-				UserId: 0,
-				PersonId: 0,
 				InnerException: null
 			}
 
