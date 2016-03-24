@@ -78,7 +78,7 @@
 
 		function log(message) {
 			var resultMessage = angular.extend({
-				version: self.options.applicationVersion
+				Version: self.options.applicationVersion
 			}, message);
 
 			var http = $injector.get('$http');
@@ -113,7 +113,7 @@
 				LogLevel: logLevels.Fatal,
 				MessageText: formattedMessage,
 				StackTrace: (errorObject.stack || 'no stack available'),
-				AdditionalInformation: additionalInformation,
+				AdditionalInformation: JSON.stringify(additionalInformation),
 				InnerException: null
 			}
 
