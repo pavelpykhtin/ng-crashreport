@@ -69,11 +69,11 @@
 
 		var logLevels = {
 			Fatal: 0,
-			Debug: 1,
-			Error: 2,
-			Trace: 3,
-			Warn: 4,
-			Info: 5
+			Error: 1,
+			Warn: 2,
+			Info: 3,
+			Debug: 4,
+			Trace: 5
 		};
 
 		function log(message) {
