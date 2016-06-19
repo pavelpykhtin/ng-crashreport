@@ -23,4 +23,6 @@ Options are:
 * **url**: Location of the CrashReport server which will collect errors
 * **application**: The key which identifies your application
 * **version**: Version of your application
+
 This will configure a handler which will catch the errors thrown in angular code and send them to the reporting server. Errors will be logged with a 'Fatal' log level.
+Errors thrown outside of angular digest loop will not be logged this way.
