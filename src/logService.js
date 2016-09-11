@@ -11,9 +11,9 @@
 			application: 'Unknown',
 			applicationVersion: '0.0'
 		}
-
-		self.options = angular.extend({}, defaultOptions, options);
-
+		var currentUrlIndex = 0;
+		var _options;
+		
 		self.log = log;
 		self.trace = trace;
 		self.logException = logException;
@@ -27,16 +27,37 @@
 			Trace: 5
 		};
 
-		function log(message) {
+		init();
+
+		function init() {
+			_options = angular.extend({}, defaultOptions, options);
+
+			options.url = parseUrl(_options.url);
+		}
+
+		function log(message, fallbackStep) {
+			fallbackStep = fallbackStep || 0;
+
 			var resultMessage = angular.extend({
-				Version: self.options.applicationVersion
+				Version: _options.applicationVersion
 			}, message);
 
 			var http = $injector.get('$http');
 
-			return http.post(
-				self.options.url + '/api/' + self.options.application + '/log',
-				resultMessage);
+			return http
+				.post(
+					_options.url[currentUrlIndex] + '/api/' + _options.application + '/log',
+					resultMessage)
+				.then(
+					function () { },
+					function (result) {
+						if (fallbackStep + 1 < _options.url.length) {
+							currentUrlIndex++;
+							return log(message, fallbackStep + 1);
+						}
+						else
+							return result;
+					});
 		};
 
 		function trace(messageText, additionalInformation) {
@@ -70,5 +91,35 @@
 
 			return self.log(message);
 		};
+
+		function parseUrl(url) {
+			if(!url)
+				console.error('Url must be provided!');
+
+			switch(Object.prototype.toString.call(url)) {
+				case '[object Array]':
+					return url;
+				case 'string':
+					var urls = url.split(';');
+					var i = 0;
+					while (i < urls.length) {
+						urls[i] = urls[i].replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
+
+						if (urls[i]) {
+							i++;
+							continue;
+						}
+
+						urls.splice(i, 1);
+					}
+
+					return urls;
+
+				default:
+					console.error('Collection of urls must be a string or an array');
+			}
+
+			return [];
+		}
 	}
 })();
