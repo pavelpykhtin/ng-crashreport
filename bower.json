@@ -8,7 +8,7 @@
     "Pavel Pykhtin <pavel.pykhtin@gmail.com>"
   ],
   "description": "Angular adapter for CrashReport log system",
-  "main": "ng-crashreport.js",
+  "main": "./dist/ng-crashreport.js",
   "moduleType": [],
   "keywords": [
     "angularjs",
