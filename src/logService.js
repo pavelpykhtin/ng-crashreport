@@ -99,7 +99,7 @@
 			switch(Object.prototype.toString.call(url)) {
 				case '[object Array]':
 					return url;
-				case 'string':
+				case '[object String]':
 					var urls = url.split(';');
 					var i = 0;
 					while (i < urls.length) {

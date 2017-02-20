@@ -11,9 +11,9 @@
     "gulp-rename": "^1.2.2"
   },
   "main": "gulpfile.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
   "author": "",
   "license": "ISC",
   "description": ""
