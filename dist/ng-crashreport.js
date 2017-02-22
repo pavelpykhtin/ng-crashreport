@@ -81,7 +81,7 @@
 		function init() {
 			_options = angular.extend({}, defaultOptions, options);
 
-			options.url = parseUrl(_options.url);
+			_options.urls = parseUrl(_options.url);
 		}
 
 		function log(message, fallbackStep) {
@@ -95,12 +95,12 @@
 
 			return http
 				.post(
-					_options.url[currentUrlIndex] + '/api/' + _options.application + '/log',
+					_options.urls[currentUrlIndex] + '/api/' + _options.application + '/log',
 					resultMessage)
 				.then(
 					function () { },
 					function (result) {
-						if (fallbackStep + 1 < _options.url.length) {
+						if (fallbackStep + 1 < _options.urls.length) {
 							currentUrlIndex++;
 							return log(message, fallbackStep + 1);
 						}
